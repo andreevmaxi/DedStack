@@ -41,6 +41,9 @@ void StuckDestruck(DedStack_t* aStack);
 
 int main()
     {
+    FILE* f = fopen("errors.txt", "w");
+    fclose(f);
+
     DedStack_t dStack1 = {};
     DEB dStack1.Name = "dStack1";
     StackInit(&dStack1);
@@ -128,14 +131,13 @@ void ASSERT_OK(DedStack_t* aStack, std::string NowFile, int Line, std::string Fu
 
 void DUMP(DedStack_t* aStack, std::string NowFile, int Line, std::string FuncName)
     {
-    FILE* f = fopen("errors.txt", "w");
-    assert(f == NULL);
+    FILE* f = fopen("errors.txt", "a");
 
     std::string status = {};
 
     if(aStack->Err != 0)
         {
-        if(aStack->Err == 1)
+        if(aStack->Err == 2)
             {
             status = "UNK"; // unknown
             } else
@@ -188,6 +190,7 @@ void DUMP(DedStack_t* aStack, std::string NowFile, int Line, std::string FuncNam
         break;
         }
 
+    fclose(f);
     return;
     }
 
